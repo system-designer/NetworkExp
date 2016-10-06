@@ -8,9 +8,8 @@ import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.namednumber.IpNumber;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.Enumeration;
 
 /**
  * Created by Raymond on 2016/10/1.
@@ -20,9 +19,29 @@ public class PacketTracer {
         //Find Network Interface
         InetAddress addr = null;
         try {
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            if(networkInterfaces!=null){
+                while(networkInterfaces.hasMoreElements()){
+                    NetworkInterface networkInterface = networkInterfaces.nextElement();
+                    Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                    if(inetAddresses!=null){
+                        while(inetAddresses.hasMoreElements()){
+                            InetAddress inetAddress = inetAddresses.nextElement();
+                            if(inetAddress.getHostAddress().startsWith("192")){
+                                addr=inetAddress;
+                            }
+                        }
+                    }
+                }
+            }
             //your local ip
-            addr = InetAddress.getByName("192.168.1.81");
+            if(addr==null) {
+                addr = InetAddress.getByName("192.168.1.110");
+            }
+            System.out.println("ip:"+addr.getHostAddress());
         } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (SocketException e) {
             e.printStackTrace();
         }
         PcapNetworkInterface nif = null;
