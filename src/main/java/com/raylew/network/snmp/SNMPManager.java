@@ -17,26 +17,16 @@ import java.util.Vector;
  * send GetRequest,GetNextRequest PDU to get MIB from agent
  */
 public class SNMPManager {
-    public static void main(String[] args) {
-        SNMPManager snmpManager = new SNMPManager();
-        String oidName = snmpManager.get("127.0.0.1", 11163, "1.3.6.1.2.1.1.2.0");
-        System.out.println(oidName);
-
-        /*
-        String ret=snmpManager.set("127.0.0.1", 11163, "1.3.6.1.2.1.1.2.0","ttttt");
-        System.out.println(ret);
-        */
-    }
-
     public SNMPManager() {
     }
 
     /**
      * snmpget is an SNMP application that
      * uses the SNMP GET request to query for information on a network entity
-     * @param agentIp ip of agent
+     *
+     * @param agentIp   ip of agent
      * @param agentPort port of agent
-     * @param oid OID of agent
+     * @param oid       OID of agent
      * @return
      */
     public String get(String agentIp, int agentPort, String oid) {
@@ -100,10 +90,11 @@ public class SNMPManager {
      * The snmpset command is used to actually modify information on the remote host.
      * For each variable you want to set, you need to specify the OID to update,
      * the data type and the value you want to set it to.
-     * @param agentIp ip of agent
+     *
+     * @param agentIp   ip of agent
      * @param agentPort port of agent
-     * @param oid OID of agent
-     * @param name name of agent
+     * @param oid       OID of agent
+     * @param name      name of agent
      * @return
      */
     public String set(String agentIp, int agentPort, String oid, String name) {
@@ -165,7 +156,7 @@ public class SNMPManager {
     /**
      * The GETNEXT operation retrieves the value of the next OID in the tree
      */
-    public void getNext(){
+    public void getNext() {
 
     }
 }
