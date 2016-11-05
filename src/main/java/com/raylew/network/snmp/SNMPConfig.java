@@ -78,15 +78,5 @@ public class SNMPConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-    }
-
-    public static void main(String[] args) {
-        SNMPConfig cfg = new SNMPConfig();
-        String oid = "1.3.6.1.2.1.1.8.0";
-        System.out.println("---------" + cfg.getValueByOID(oid));
-        cfg.setValueByOID(oid, "test");
-        System.out.println("---------" + cfg.getValueByOID(oid));
     }
 }  
