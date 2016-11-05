@@ -15,6 +15,13 @@ public class SNMPTest {
     }
 
     @Test
+    public void testGetNext(){
+        SNMPManager snmpManager = new SNMPManager();
+        String nextOIDName = snmpManager.getNext("127.0.0.1", 11163, "1.3.6.1.2.1.1.2.0");
+        System.out.println(nextOIDName);
+    }
+
+    @Test
     public void testSet() {
         SNMPManager snmpManager = new SNMPManager();
         String ret = snmpManager.set("127.0.0.1", 11163, "1.3.6.1.2.1.1.2.0", "ttttt");

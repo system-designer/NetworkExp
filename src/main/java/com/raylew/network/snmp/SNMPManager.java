@@ -17,7 +17,10 @@ import java.util.Vector;
  * send GetRequest,GetNextRequest PDU to get MIB from agent
  */
 public class SNMPManager {
+    private SNMPConfig snmpConfig;
+
     public SNMPManager() {
+        snmpConfig = new SNMPConfig();
     }
 
     /**
@@ -156,7 +159,13 @@ public class SNMPManager {
     /**
      * The GETNEXT operation retrieves the value of the next OID in the tree
      */
-    public void getNext() {
-
+    public String getNext(String agentIp, int agentPort, String currentOID) {
+        String nextOID = snmpConfig.getNextOID(currentOID);
+        if (nextOID != null&& !"".equals(nextOID)){
+            String nextOIDName = this.get(agentIp, agentPort, nextOID);
+            return nextOIDName;
+        }else{
+            return "unknown";
+        }
     }
 }

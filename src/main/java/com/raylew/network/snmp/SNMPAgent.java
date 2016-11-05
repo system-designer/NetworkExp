@@ -21,12 +21,12 @@ import java.util.Vector;
  */
 public class SNMPAgent {
     public static class Handler implements CommandResponder {
-        protected String agentAddress = null;
+        protected String agentAddress;
         protected int agentPort = 0;
-        protected String agentCommunityName = null;
-        protected TransportMapping agentServerSocket = null;
-        protected Snmp agentSNMP = null;
-        protected SNMPConfig snmpConfig = null;
+        protected String agentCommunityName;
+        protected TransportMapping agentServerSocket;
+        protected Snmp agentSNMP;
+        protected SNMPConfig snmpConfig;
 
         public Handler() {
         }

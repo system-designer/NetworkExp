@@ -1,15 +1,18 @@
 package com.raylew.network.snmp;
 
-import java.io.*;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * mib
  */
 public class SNMPConfig {
     private Properties properties;
-    private Map map;
 
     public SNMPConfig() {
         properties = new Properties();
@@ -18,20 +21,52 @@ public class SNMPConfig {
         try (InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
             properties.load(resourceStream);
         } catch (IOException e) {
-            System.out.println("读取properties文件错误");
+            System.out.println("read properties error");
             e.printStackTrace();
         }
     }
 
     /**
-     * 根据oid获取value
+     * get value by oid
      *
-     * @param oid
+     * @param oid Object Identifier
      * @return
      */
     public String getValueByOID(String oid) {
         return properties.getProperty(oid);
+    }
 
+    /**
+     * get next OID
+     *
+     * @param currentOID
+     * @return
+     */
+    public String getNextOID(String currentOID) {
+        String nextOID = "";
+        Set<Object> objects = properties.keySet();
+        Iterator<Object> iterator = objects.iterator();
+        String firstOID = "";
+        boolean found = false;
+        boolean first = true;
+        while (iterator.hasNext()) {
+            String next = (String) iterator.next();
+            if (first) {
+                firstOID = next;
+                first = false;
+            }
+            if (!found) {
+                if (next.equals(currentOID)) {
+                    found = true;
+                }
+            } else {
+                nextOID = next;
+            }
+        }
+        if (found && "".equals(nextOID)) {
+            nextOID = firstOID;
+        }
+        return nextOID;
     }
 
     public void setValueByOID(String oid, String value) {
@@ -39,17 +74,14 @@ public class SNMPConfig {
         try {
             properties.store(new FileOutputStream("mib.properties"), "mib.properties");
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
 
     }
 
-    //测试主函数
     public static void main(String[] args) {
         SNMPConfig cfg = new SNMPConfig();
         String oid = "1.3.6.1.2.1.1.8.0";
